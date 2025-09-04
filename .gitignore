@@ -1,0 +1,42 @@
+# WORM Testnet Security - Protect Sensitive Files
+
+# Environment files with credentials
+.env
+*.env
+
+# Private keys and wallet files
+*.key
+*.wallet
+*.json
+
+# Logs that might contain sensitive data
+logs/*.log
+*.log
+
+# Backup files
+*.bak
+*.backup
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Rust build artifacts (when we clone miner)
+target/
+Cargo.lock
+
+# WORM specific files that might contain sensitive data
+burn.json
+*.burn
+recovery_*.json
