@@ -7,7 +7,6 @@
 # Private keys and wallet files
 *.key
 *.wallet
-*.json
 
 # Logs that might contain sensitive data
 logs/*.log
@@ -32,7 +31,22 @@ Thumbs.db
 *.swp
 *.swo
 
-# Rust build artifacts (when we clone miner)
+# Node.js dependencies and build artifacts
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# React build artifacts
+ui/frontend/build/
+ui/frontend/.env.local
+ui/frontend/.env.development.local
+ui/frontend/.env.test.local
+ui/frontend/.env.production.local
+
+# Rust build artifacts
 target/
 Cargo.lock
 
@@ -40,3 +54,11 @@ Cargo.lock
 burn.json
 *.burn
 recovery_*.json
+
+# Keep ABI files but exclude other JSON that might contain sensitive data
+*.json
+!ui/frontend/src/*.abi.json
+!ui/frontend/public/manifest.json
+!ui/frontend/package.json
+!ui/backend/package.json
+!miner/Cargo.toml
