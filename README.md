@@ -7,6 +7,12 @@ This repository contains a complete testing environment for the WORM Shai-Hulud 
 - **Backend API server** for WORM operations
 - **Automated shell scripts** for all operations
 
+## 🖼️ UI Preview
+
+![WORM Shai-Hulud UI](ui-screenshot.png)
+
+*The React-based web interface provides an intuitive way to interact with the WORM testnet, featuring MetaMask integration, real-time balance updates, and comprehensive mining operations.*
+
 ## 📁 Project Structure
 
 ```
