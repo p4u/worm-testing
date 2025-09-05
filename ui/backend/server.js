@@ -24,7 +24,28 @@ app.use(express.json());
 // Path to scripts directory
 const SCRIPTS_PATH = path.join(__dirname, '../../scripts');
 
-// Helper function to execute shell scripts
+// Helper function to execute worm-miner commands in container
+const executeWormMiner = (command, args = []) => {
+  return new Promise((resolve, reject) => {
+    // Execute worm-miner directly in the container
+    const fullCommand = `docker exec worm-miner worm-miner ${command} ${args.join(' ')}`;
+    
+    console.log(`Executing: ${fullCommand}`);
+    
+    exec(fullCommand, { timeout: 300000 }, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing worm-miner ${command}:`, error);
+        reject({ error: error.message, stderr });
+        return;
+      }
+      
+      console.log(`worm-miner ${command} output:`, stdout);
+      resolve({ success: true, output: stdout, stderr });
+    });
+  });
+};
+
+// Helper function to execute shell scripts (fallback)
 const executeScript = (scriptName, args = []) => {
   return new Promise((resolve, reject) => {
     const scriptPath = path.join(SCRIPTS_PATH, scriptName);

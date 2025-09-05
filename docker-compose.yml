@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # WORM Miner Service (based on official Dockerfile)
+  worm-miner:
+    build:
+      context: ./miner
+      dockerfile: ../Dockerfile.miner
+    container_name: worm-miner
+    volumes:
+      - worm-data:/root/.worm-miner
+      - ./scripts:/app/scripts:ro
+      - ./.env:/app/.env:ro
+    environment:
+      - RUST_LOG=info
+    networks:
+      - worm-network
+    # Keep container running for CLI access
+    command: tail -f /dev/null
+
+  # Backend API Service
+  backend:
+    build:
+      context: ./ui/backend
+      dockerfile: Dockerfile
+    container_name: worm-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./.env:/app/.env:ro
+      - worm-data:/root/.worm-miner:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    depends_on:
+      - worm-miner
+    networks:
+      - worm-network
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./ui/frontend
+      dockerfile: Dockerfile
+    container_name: worm-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001
+    depends_on:
+      - backend
+    networks:
+      - worm-network
+
+volumes:
+  worm-data:
+    driver: local
+
+networks:
+  worm-network:
+    driver: bridge

@@ -2,9 +2,10 @@
 
 ## 🎯 Overview
 This repository contains a complete testing environment for the WORM Shai-Hulud incentivized testnet, including:
-- **Command-line WORM miner** (Rust-based)
+- **Official WORM miner** (via git submodule for security)
 - **Web-based React UI** with MetaMask integration
 - **Backend API server** for WORM operations
+- **Docker containerization** for easy deployment
 - **Automated shell scripts** for all operations
 
 ## 🖼️ UI Preview
@@ -13,15 +14,28 @@ This repository contains a complete testing environment for the WORM Shai-Hulud 
 
 *The React-based web interface provides an intuitive way to interact with the WORM testnet, featuring MetaMask integration, real-time balance updates, and comprehensive mining operations.*
 
+## 🔒 Security & Trust
+
+### **Official Code Only**
+- ✅ **Git Submodule**: Uses official WORM miner repository (no copied code)
+- ✅ **Verifiable**: Users can verify the miner code authenticity
+- ✅ **Secure**: No risk of malicious modifications to core miner code
+- ✅ **Updated**: Automatically tracks official repository updates
+
+### **Why This Matters**
+This project follows security best practices by using git submodules instead of copying code, ensuring users can trust they're running the authentic WORM miner without any modifications.
+
 ## 📁 Project Structure
 
 ```
 worm-testing/
-├── miner/                    # Rust WORM miner source code
+├── miner/                    # Official WORM miner (git submodule)
 ├── scripts/                  # Shell script wrappers
 ├── ui/
 │   ├── backend/             # Node.js Express API server
 │   └── frontend/            # React TypeScript UI
+├── docker-compose.yml       # Docker orchestration
+├── Dockerfile.miner         # WORM miner container
 ├── docs/                    # Documentation
 ├── logs/                    # Operation logs
 ├── .env.example            # Environment template
@@ -34,10 +48,58 @@ worm-testing/
 - **Machine**: x86-64 architecture (VPS, dedicated server, or local machine)
 - **RAM**: Minimum 16GB
 - **OS**: Debian/Ubuntu recommended
-- **Node.js**: v18+ for UI components
-- **Rust**: Latest stable version
+- **Docker & Docker Compose**: For containerized setup (recommended)
 - **MetaMask**: Browser extension for UI testing
 - **Sepolia ETH**: 1.0+ testnet ETH from faucets
+
+## 🐳 Docker Setup (Recommended)
+
+### **One-Command Setup**
+```bash
+# Clone with submodules
+git clone --recursive https://github.com/2Rebfl/worm-testing.git
+cd worm-testing
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your private key
+
+# Start everything with Docker
+docker-compose up -d
+
+# Download WORM parameters (one-time setup)
+docker exec worm-miner worm-miner-download-artifacts
+
+# Access the UI
+open http://localhost:3000
+```
+
+### **Docker Benefits**
+- ✅ **No local dependencies** (Rust, Node.js, etc.)
+- ✅ **Consistent environment** across all machines
+- ✅ **Easy deployment** with single command
+- ✅ **Automatic networking** between services
+- ✅ **Volume persistence** for WORM data
+
+### **Docker Commands**
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+
+# Rebuild after changes
+docker-compose build
+
+# Execute worm-miner commands
+docker exec worm-miner worm-miner info --network sepolia --private-key YOUR_KEY
+```
+
+## 🔧 Manual Setup (Alternative)
 
 ### 1. Environment Setup
 
@@ -55,7 +117,14 @@ curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-### 2. Build WORM Miner
+### 2. Initialize Submodules
+
+```bash
+# Initialize and update git submodules
+git submodule update --init --recursive
+```
+
+### 3. Build WORM Miner
 
 ```bash
 cd miner
@@ -64,7 +133,7 @@ cargo install --path .
 cd ..
 ```
 
-### 3. Configure Environment
+### 4. Configure Environment
 
 ```bash
 # Copy and edit environment file
@@ -72,7 +141,7 @@ cp .env.example .env
 # Edit .env with your private key and settings
 ```
 
-### 4. Install UI Dependencies
+### 5. Install UI Dependencies
 
 ```bash
 # Backend dependencies
@@ -280,6 +349,13 @@ npm run build
 
 ## 🔄 Recent Updates
 
+### v2.0 - Security & Docker Improvements
+- **Security**: Replaced copied code with official git submodule
+- **Docker**: Complete containerization with Docker Compose
+- **Trust**: Users can verify authentic WORM miner code
+- **Deployment**: One-command setup with Docker
+- **Maintenance**: Automatic updates from official repository
+
 ### v1.1 - Mining Functionality Improvements
 - **Fixed**: "Cannot claim an ongoing epoch!" error resolved
 - **Enhanced**: Proper handling of ongoing vs completed epochs
@@ -287,19 +363,13 @@ npm run build
 - **Added**: Visual indicators for epoch status in UI
 - **Updated**: Contract service with correct ABI definitions
 
-### UI Enhancements
-- **Epoch Status**: Clear distinction between ongoing and completed epochs
-- **Error Prevention**: Prevents invalid operations on ongoing epochs
-- **User Guidance**: Better instructions for BETH token requirements
-- **Visual Feedback**: Orange highlighting for ongoing epochs
-
 ## 🏆 Completion Status
 
 ✅ **Complete WORM Testing Environment Ready**
 
 This setup provides everything needed to participate in the WORM Shai-Hulud testnet with both command-line and web interfaces. The React UI offers a user-friendly way to perform all WORM operations while the CLI provides direct access for advanced users.
 
-**Latest Version**: All mining functionality issues resolved and UI enhanced for better user experience.
+**Latest Version**: Secure, containerized setup with official WORM miner code and comprehensive Docker support.
 
 ---
 
