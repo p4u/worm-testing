@@ -339,6 +339,24 @@ npm run build
 - [x] UI functionality tested
 - [x] All features working
 
+## 📄 License
+
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
+
+### What this means:
+- ✅ **Free to use**: You can use this software for any purpose
+- ✅ **Free to modify**: You can modify and distribute the software
+- ✅ **Free to distribute**: You can share the software with others
+- ⚠️ **Copyleft**: Any modifications must also be licensed under AGPLv3
+- ⚠️ **Network use**: If you run this on a server, you must provide source code to users
+
+See the [LICENSE](LICENSE) file for the complete license text.
+
+### Third-Party Components:
+- **WORM Miner**: Uses official WORM repository (via git submodule)
+- **React & Dependencies**: Various open source licenses (see package.json files)
+- **Docker Base Images**: Respective open source licenses
+
 ## 📚 Resources
 
 - **WORM GitHub**: https://github.com/worm-privacy/shaihulud
